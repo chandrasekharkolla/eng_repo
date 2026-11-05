@@ -1,14 +1,14 @@
 {
   "extends": ["config:base"],
   "timezone": "America/Chicago",
-  "schedule": ["every 1 minutes"],
+  "schedule": ["every 5 minutes"],   // fast while testing; change later if you like
 
   "customManagers": [
     {
       "customType": "regex",
       "fileMatch": ["lambda-versions.yaml"],
       "matchStrings": [
-        "\"python\":\\s*{\\s*\"current\":\\s*\"(?<currentVersion>[^\\\"]+)\""
+        "\"python\":\\s*{\\s*\"current\":\\s*\"(?<currentValue>[^\\\"]+)\""
       ],
       "datasourceTemplate": "github-releases",
       "depNameTemplate": "aws/aws-lambda-runtime-python",
@@ -19,11 +19,22 @@
       "customType": "regex",
       "fileMatch": ["lambda-versions.yaml"],
       "matchStrings": [
-        "\"nodejs\":\\s*{\\s*\"current\":\\s*\"(?<currentVersion>[^\\\"]+)\""
+        "\"nodejs\":\\s*{\\s*\"current\":\\s*\"(?<currentValue>[^\\\"]+)\""
       ],
       "datasourceTemplate": "github-releases",
       "depNameTemplate": "aws/aws-lambda-runtime-nodejs",
       "extractVersionTemplate": "^nodejs(?<version>\\d+\\.\\d+\\.x)$",
+      "versioningTemplate": "loose"
+    },
+    {
+      "customType": "regex",
+      "fileMatch": ["lambda-versions.yaml"],
+      "matchStrings": [
+        "\"java\":\\s*{\\s*\"current\":\\s*\"(?<currentValue>[^\\\"]+)\""
+      ],
+      "datasourceTemplate": "github-releases",
+      "depNameTemplate": "aws/aws-lambda-runtime-java",
+      "extractVersionTemplate": "^java(?<version>\\d+)$",
       "versioningTemplate": "loose"
     }
   ],
@@ -32,7 +43,8 @@
     {
       "matchPackageNames": [
         "aws/aws-lambda-runtime-python",
-        "aws/aws-lambda-runtime-nodejs"
+        "aws/aws-lambda-runtime-nodejs",
+        "aws/aws-lambda-runtime-java"
       ],
       "groupName": "lambda-runtime-updates",
       "commitMessageTopic": "Update Lambda runtimes",
