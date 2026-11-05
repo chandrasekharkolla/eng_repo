@@ -1,0 +1,14 @@
+# lambda-versions.yaml
+# Central source of truth for all Lambda runtimes we support.
+python:
+  current: "python3.14"
+  next:    "python3.15"
+  deprecated: []
+nodejs:
+  current: "nodejs18.x"
+  next:    "nodejs20.x"
+  deprecated: []
+java:
+  current: "java11"
+  next:    "java17"
+  deprecated: []
