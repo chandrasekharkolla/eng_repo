@@ -1,0 +1,45 @@
+{
+  "extends": ["config:base"],
+  "timezone": "America/Chicago",
+  "schedule": ["every 1 minutes"],
+
+  "customManagers": [
+    {
+      "customType": "regex",
+      "fileMatch": ["lambda-versions.yaml"],
+      "matchStrings": [
+        "\"python\":\\s*{\\s*\"current\":\\s*\"(?<currentVersion>[^\\\"]+)\""
+      ],
+      "datasourceTemplate": "github-releases",
+      "depNameTemplate": "aws/aws-lambda-runtime-python",
+      "extractVersionTemplate": "^python(?<version>\\d+\\.\\d+)$",
+      "versioningTemplate": "loose"
+    },
+    {
+      "customType": "regex",
+      "fileMatch": ["lambda-versions.yaml"],
+      "matchStrings": [
+        "\"nodejs\":\\s*{\\s*\"current\":\\s*\"(?<currentVersion>[^\\\"]+)\""
+      ],
+      "datasourceTemplate": "github-releases",
+      "depNameTemplate": "aws/aws-lambda-runtime-nodejs",
+      "extractVersionTemplate": "^nodejs(?<version>\\d+\\.\\d+\\.x)$",
+      "versioningTemplate": "loose"
+    }
+  ],
+
+  "packageRules": [
+    {
+      "matchPackageNames": [
+        "aws/aws-lambda-runtime-python",
+        "aws/aws-lambda-runtime-nodejs"
+      ],
+      "groupName": "lambda-runtime-updates",
+      "commitMessageTopic": "Update Lambda runtimes",
+      "commitMessageExtra": "Automated bump from AWS"
+    }
+  ],
+
+  "prCreation": "immediate",
+  "automerge": false
+}
