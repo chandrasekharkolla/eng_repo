@@ -1,13 +1,12 @@
 {
   "extends": ["config:base"],
   "timezone": "America/Chicago",
-  "schedule": ["before 5am on monday"],
+  "schedule": ["every 1 minutes"],
 
-  // ==== Detect new runtimes from the official AWS tags ====
   "customManagers": [
     {
       "customType": "regex",
-      "fileMatch": ["lambda-versions.yaml$"],
+      "fileMatch": ["lambda-versions.yaml"],
       "matchStrings": [
         "\"python\":\\s*{\\s*\"current\":\\s*\"(?<currentVersion>[^\\\"]+)\""
       ],
@@ -18,7 +17,7 @@
     },
     {
       "customType": "regex",
-      "fileMatch": ["lambda-versions.yaml$"],
+      "fileMatch": ["lambda-versions.yaml"],
       "matchStrings": [
         "\"nodejs\":\\s*{\\s*\"current\":\\s*\"(?<currentVersion>[^\\\"]+)\""
       ],
@@ -29,14 +28,13 @@
     }
   ],
 
-  // ==== How Renovate rewrites the yaml ====    
   "packageRules": [
     {
       "matchPackageNames": [
         "aws/aws-lambda-runtime-python",
         "aws/aws-lambda-runtime-nodejs"
       ],
-      "groupName": "lambda‑runtime‑updates",
+      "groupName": "lambda-runtime-updates",
       "commitMessageTopic": "Update Lambda runtimes",
       "commitMessageExtra": "Automated bump from AWS"
     }
