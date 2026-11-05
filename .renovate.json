@@ -1,7 +1,7 @@
 {
   "extends": ["config:base"],
   "timezone": "America/Chicago",
-  "schedule": ["every 5 minutes"],   // fast while testing; change later if you like
+  "schedule": ["every 5 hours"],            // adjust to your testing cadence
 
   "customManagers": [
     {
@@ -10,8 +10,8 @@
       "matchStrings": [
         "\"python\":\\s*{\\s*\"current\":\\s*\"(?<currentValue>[^\\\"]+)\""
       ],
-      "datasourceTemplate": "github-releases",
-      "depNameTemplate": "aws/aws-lambda-runtime-python",
+      "datasourceTemplate": "docker",
+      "depNameTemplate": "public.ecr.aws/lambda/python",
       "extractVersionTemplate": "^python(?<version>\\d+\\.\\d+)$",
       "versioningTemplate": "loose"
     },
@@ -21,8 +21,8 @@
       "matchStrings": [
         "\"nodejs\":\\s*{\\s*\"current\":\\s*\"(?<currentValue>[^\\\"]+)\""
       ],
-      "datasourceTemplate": "github-releases",
-      "depNameTemplate": "aws/aws-lambda-runtime-nodejs",
+      "datasourceTemplate": "docker",
+      "depNameTemplate": "public.ecr.aws/lambda/nodejs",
       "extractVersionTemplate": "^nodejs(?<version>\\d+\\.\\d+\\.x)$",
       "versioningTemplate": "loose"
     },
@@ -32,8 +32,8 @@
       "matchStrings": [
         "\"java\":\\s*{\\s*\"current\":\\s*\"(?<currentValue>[^\\\"]+)\""
       ],
-      "datasourceTemplate": "github-releases",
-      "depNameTemplate": "aws/aws-lambda-runtime-java",
+      "datasourceTemplate": "docker",
+      "depNameTemplate": "public.ecr.aws/lambda/java",
       "extractVersionTemplate": "^java(?<version>\\d+)$",
       "versioningTemplate": "loose"
     }
@@ -42,13 +42,13 @@
   "packageRules": [
     {
       "matchPackageNames": [
-        "aws/aws-lambda-runtime-python",
-        "aws/aws-lambda-runtime-nodejs",
-        "aws/aws-lambda-runtime-java"
+        "public.ecr.aws/lambda/python",
+        "public.ecr.aws/lambda/nodejs",
+        "public.ecr.aws/lambda/java"
       ],
       "groupName": "lambda-runtime-updates",
       "commitMessageTopic": "Update Lambda runtimes",
-      "commitMessageExtra": "Automated bump from AWS"
+      "commitMessageExtra": "Automated bump from Docker registry"
     }
   ],
 
